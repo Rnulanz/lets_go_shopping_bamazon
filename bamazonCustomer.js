@@ -13,24 +13,15 @@ var connection = mysql.createConnection({
 connection.connect(function(err){
     if(err) throw err;
     console.log(`Connected as id ${connection.threadId}`);
-    displayProducts();
+    customerPrompt();
 });
 
-function displayProducts(){
-    connection.query("SELECT * FROM products", function(err,response){
-        if(err){
-            console.log(`There was an error finding your products ${err}`)
-        connection.end()
-        }else{
-            // console.log(response)
-            console.log("\n========================================\n")
-            for(var i = 0; i < response.length; i++){
-                console.log(`${response[i].id} : ${response[i].product_name} - $${response[i].price}, Quantity:${response[i].stock_quantity}`)
-            }
-        }
-        customerPrompt();
-    })
-}
+function createChoicesArray(res){
+    let arrayID = [];
+    for(var i in res)
+        arrayID.push(`${res[i].id} : ${res[i].product_name} - $${res[i].price}`);
+    return arrayID;
+};
 
 function customerPrompt(){
     connection.query("SELECT * FROM products", function(err,response){
@@ -39,7 +30,7 @@ function customerPrompt(){
         .prompt([
             {
                 type: "rawlist",
-                message: "Please selected the product ID that you would like to purchase. The information is located above.",
+                message: "Please selected the product that you would like to purchase.",
                 choices: createChoicesArray(response),
                 name: "userChoice"
             },
@@ -91,10 +82,3 @@ function customerPrompt(){
             })
     })
 }
-
-function createChoicesArray(a){
-    let arrayID = [];
-    for(var i in a)
-        arrayID.push(`${a[i].id} : ${a[i].product_name} - $${a[i].price}`);
-    return arrayID;
-};

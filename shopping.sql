@@ -9,12 +9,12 @@ CREATE TABLE products (
     product_name VARCHAR(50) NULL,
     dept_name VARCHAR(50) NULL,
     price DECIMAL(10,2) NULL,
-    stock_quantity INT(10) NULL
+    stock_quantity INT(10) NULL,
     PRIMARY KEY(id)
 );
 
 
-INSERT INTO products (product_name, dept_name, price, stock_quanity)
+INSERT INTO products (product_name, dept_name, price, stock_quantity)
 VALUES ("Norton 360 Deluxe", "Softwar", 29.99, 50),
 ("Microsoft Office 365", "Software", 99.99, 75),
 ("Instant Pot Pressure Cooker", "Kitchen and Dining", 59.89, 25),
