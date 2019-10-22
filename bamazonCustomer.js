@@ -25,7 +25,7 @@ function displayProducts(){
             // console.log(response)
             console.log("\n========================================\n")
             for(var i = 0; i < response.length; i++){
-                console.log(`${response[i].id} : ${response[i].product_name} - $${response[i].price}`)
+                console.log(`${response[i].id} : ${response[i].product_name} - $${response[i].price}, Quantity:${response[i].stock_quantity}`)
             }
         }
         customerPrompt();
@@ -38,9 +38,9 @@ function customerPrompt(){
         inquirer
         .prompt([
             {
-                type: "list",
+                type: "rawlist",
                 message: "Please selected the product ID that you would like to purchase. The information is located above.",
-                choices: [1,2,3,4,5,6,7,8,9,10],
+                choices: createChoicesArray(response),
                 name: "userChoice"
             },
             {
@@ -49,9 +49,10 @@ function customerPrompt(){
                 name: "productAmount"
             }
             ]).then(function(answer){
+                var customerChoice
                 for(var i = 0; i < response.length; i++){
-                    if(response[i].id === answer.userChoice){
-                        var customerChoice = response[i];
+                    if(response[i].id == parseInt(answer.userChoice.substring(0,1))){
+                        customerChoice = response[i];
                     };
                 };
                 if(customerChoice.stock_quantity < parseInt(answer.productAmount)){
@@ -76,7 +77,7 @@ function customerPrompt(){
                                 console.log(`There was an error finding your products ${err}`)
                                 connection.end()
                             }else{
-                                var total = customerChoice.price * parseInt(answer.productAmount);
+                                var total = parseFloat(customerChoice.price * answer.productAmount).toFixed(2);
                                 console.log(`\n============================================\n`);
                                 console.log(`Your total is $${total}`);
                                 console.log(`Thank you for your purchase.`);
@@ -90,3 +91,10 @@ function customerPrompt(){
             })
     })
 }
+
+function createChoicesArray(a){
+    let arrayID = [];
+    for(var i in a)
+        arrayID.push(`${a[i].id} : ${a[i].product_name} - $${a[i].price}`);
+    return arrayID;
+};
