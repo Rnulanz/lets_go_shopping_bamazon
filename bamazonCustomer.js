@@ -40,9 +40,9 @@ function customerPrompt(){
                 name: "productAmount"
             }
             ]).then(function(answer){
-                var customerChoice
+                var customerChoice;
                 for(var i = 0; i < response.length; i++){
-                    if(response[i].id == parseInt(answer.userChoice.substring(0,1))){
+                    if(response[i].id === parseInt(answer.userChoice)){
                         customerChoice = response[i];
                     };
                 };
@@ -72,7 +72,7 @@ function customerPrompt(){
                                 console.log(`\n============================================\n`);
                                 console.log(`Your total is $${total}`);
                                 console.log(`Thank you for your purchase.`);
-                                console.log(`We have ${newQuantityAmount} items left if you would like to purchase more of item ${customerChoice.id}`)
+                                console.log(`We have ${newQuantityAmount} items left if you would like to purchase more of ${customerChoice.product_name}.`)
                                 console.log(`\n============================================\n`)
                                 connection.end();
                             }
