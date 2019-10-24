@@ -28,7 +28,7 @@ function managerMenu(){
         {
             type: "rawlist",
             message: "What would you like to review?",
-            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product"],
+            choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"],
             name: "managerChoice"
         }
     ]).then(function(response){
@@ -45,9 +45,10 @@ function managerMenu(){
             case "Add New Product":
                 newProduct()
                 break;
-            default:
-                console.log(`Sorry please choice from the four choices`)
+            case "Exit":
+                console.log(`Thank you for coming, have a great day.`)
                 connection.end()
+            break
         }
     })
 }
@@ -59,7 +60,6 @@ function productsForSale(){
             for (var i = 0; i < response.length; i++) {
             productArray.push(`${response[i].id} : Product:${response[i].product_name} - Price:${response[i].price} - Quantity:${response[i].stock_quantity}`);
             }
-            // return productArray;
             console.log(productArray)
     })
     connection.end();
@@ -72,7 +72,6 @@ function lowInventory(){
         for(var i = 0; i < response.length; i++){
             lowProducts.push(`${response[i].id} : Product:${response[i].product_name} - Price:${response[i].price} - Quantity:${response[i].stock_quantity}`)
         }
-        // return lowProducts;
         console.log(lowProducts)
     })
     connection.end();
